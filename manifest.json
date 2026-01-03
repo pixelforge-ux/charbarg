@@ -2,7 +2,7 @@
   "name": "چهار برگ سلطنتی",
   "short_name": "چهار برگ",
   "description": "بازی ورق کلاسیک ایرانی با گرافیک خیره کننده",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a1a1a",
   "theme_color": "#d4af37",
@@ -12,28 +12,28 @@
     {
       "src": "icon-192x192.png",
       "sizes": "1024x1024",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
       "src": "icon-512x512.png",
       "sizes": "1024x1024",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     }
   ],
   "screenshots": [
     {
-      "src": "screenshot1.png",
+      "src": "./screenshot1.png",
       "sizes": "1344x768",
-      "type": "image/png",
+      "type": "image/webp",
       "form_factor": "wide",
       "label": "نمای بازی"
     },
     {
-      "src": "screenshot2.png",
+      "src": "./screenshot2.png",
       "sizes": "768x1344",
-      "type": "image/png",
+      "type": "image/webp",
       "form_factor": "narrow",
       "label": "منوی اصلی"
     }
