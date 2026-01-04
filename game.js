@@ -127,10 +127,13 @@ const startGame = () => {
     hud.style.opacity = '1';
     hud.style.display = 'flex';
     
-    // Ensure sticker toggle is visible in both bot and online modes
-    const stickerToggle = document.getElementById('sticker-toggle');
-    stickerToggle.classList.remove('opacity-0');
-    stickerToggle.classList.add('pointer-events-auto');
+    if (gameState.isMultiplayer) {
+        document.getElementById('sticker-toggle').classList.remove('opacity-0');
+        document.getElementById('sticker-toggle').classList.add('pointer-events-auto');
+    } else {
+        document.getElementById('sticker-toggle').classList.add('opacity-0');
+        document.getElementById('sticker-toggle').classList.remove('pointer-events-auto');
+    }
 
     gameState.isPaused = false;
     initGame();
@@ -212,6 +215,7 @@ window.toggleStickerPanel = () => {
 };
 
 window.sendSticker = (sticker) => {
+    if (!gameState.isMultiplayer) return;
     showStickerUI(sticker, 0);
     window.toggleStickerPanel();
 };
