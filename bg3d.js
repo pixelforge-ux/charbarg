@@ -28,11 +28,11 @@ export function initBackground3D(containerId, cardBackUrl) {
         map: cardTexture, 
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 1.0,
+        opacity: 0.9,
         roughness: 0.1,
-        metalness: 0.7,
+        metalness: 0.8,
         emissive: new THREE.Color(0xd4af37),
-        emissiveIntensity: 0.05
+        emissiveIntensity: 0.1
     });
 
     const cards = [];
@@ -52,15 +52,15 @@ export function initBackground3D(containerId, cardBackUrl) {
     function resetCard(card) {
         card.position.x = (Math.random() - 0.5) * 20;
         card.position.y = 10 + Math.random() * 10;
-        card.position.z = (Math.random() - 0.5) * 8;
+        card.position.z = (Math.random() - 0.5) * 6;
         card.rotation.x = Math.random() * Math.PI * 2;
         card.rotation.y = Math.random() * Math.PI * 2;
         card.rotation.z = Math.random() * Math.PI * 2;
-        card.userData.speed = 0.003 + Math.random() * 0.008; // Gentle fall
+        card.userData.speed = 0.015 + Math.random() * 0.035;
         card.userData.rotSpeed = {
-            x: (Math.random() - 0.5) * 0.01,
-            y: (Math.random() - 0.5) * 0.01,
-            z: (Math.random() - 0.5) * 0.01
+            x: (Math.random() - 0.5) * 0.04,
+            y: (Math.random() - 0.5) * 0.04,
+            z: (Math.random() - 0.5) * 0.04
         };
     }
 

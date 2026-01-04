@@ -11,8 +11,6 @@ const NAMES = [
     "ساغر", "Saghar", "ترانه", "Taraneh", "مریم", "Maryam", "Salar", "Sina", "Yasamin", 
     "Behnam", "Farzad", "Omid", "Shayan", "Kaveh", "Pooya", "Sahand", "Melika", "Dorsa",
     "فرهاد", "Farhad", "نازنین", "Nazanin", "شیوا", "Shiva", "رامین", "Ramin", "شهاب", "Shahab",
-    "پویا", "عرفان", "مبینا", "آرین", "سورن", "ایلیا", "آتوسا", "دنیا", "ستاره", "طلا",
-    "بیتا", "فرناز", "کیوان", "مهران", "سهراب", "رستم", "اسفندیار", "جمشید", "منوچهر", "بیژن",
     "Pouya", "Erfan", "Mobina", "Arian", "Soren", "Elya", "Atusa", "Donya", "Setareh", "Tala"
 ];
 

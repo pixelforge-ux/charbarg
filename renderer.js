@@ -28,16 +28,8 @@ export function renderBoard(gameState, playCardAction) {
         if (isActive) {
             cardDiv.style.zIndex = '100';
             cardDiv.style.boxShadow = '0 0 40px #d4af37, 0 0 20px #d4af37';
-            cardDiv.style.transform = `rotate(${angle - 7}deg) scale(1.4) translateY(-15px)`;
-            cardDiv.style.border = '3px solid #ffd700';
-            // Pulsing glow for the active card during the 1.5s observation delay
-            gsap.to(cardDiv, { 
-                boxShadow: '0 0 60px #ffd700, 0 0 30px #d4af37', 
-                duration: 0.4, 
-                repeat: -1, 
-                yoyo: true, 
-                ease: "sine.inOut" 
-            });
+            cardDiv.style.transform = `rotate(${angle - 7}deg) scale(1.3) translateY(-10px)`;
+            cardDiv.style.border = '2px solid #d4af37';
         }
 
         tableEl.appendChild(cardDiv);

@@ -49,8 +49,7 @@ function startLoading() {
     const progress = document.getElementById('loader-progress');
     const mainMenu = document.getElementById('main-menu');
     
-    if (!splash) return;
-    if (splash.style.display === 'none') return;
+    if (!splash || mainMenu.style.opacity === '1') return; // Prevent double init
     
     mainMenu.style.opacity = '0';
     
@@ -82,44 +81,17 @@ function startLoading() {
     }, 80);
 }
 
-// Ensure splash starts regardless of exact script load timing
-if (document.readyState === 'complete') {
-    startLoading();
-} else {
-    window.addEventListener('load', startLoading);
+if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', startLoading);
+} else {
+    startLoading();
 }
 
 // tombstone: removed FIRST_NAMES, LAST_NAMES, NAMES_LIST generation (moved to utils.js)
 // tombstone: removed hideAllMenus() (moved to menu.js)
 // tombstone: removed menu-related window functions (moved to menu.js)
 
-window.checkConnectivity = () => {
-    if (navigator.onLine) {
-        document.getElementById('offline-popup').classList.add('hidden');
-        if (gameState.isMultiplayer && gameState.isGameActive && gameState.isPaused) {
-            window.resumeGame();
-        }
-    } else {
-        const btn = document.querySelector('#offline-popup button');
-        btn.classList.add('animate-bounce');
-        setTimeout(() => btn.classList.remove('animate-bounce'), 500);
-    }
-};
-
-window.addEventListener('offline', () => {
-    if (gameState.isMultiplayer && gameState.isGameActive) {
-        document.getElementById('offline-popup').classList.remove('hidden');
-        // We don't pause logic automatically to avoid state desync, 
-        // but the overlay prevents interaction.
-    }
-});
-
 const startMatchmaking = () => {
-    if (!navigator.onLine) {
-        document.getElementById('offline-popup').classList.remove('hidden');
-        return;
-    }
     hideAllMenus();
     document.getElementById('matchmaking').classList.remove('hidden');
     const foundContainer = document.getElementById('found-players');
@@ -155,13 +127,10 @@ const startGame = () => {
     hud.style.opacity = '1';
     hud.style.display = 'flex';
     
-    if (gameState.isMultiplayer) {
-        document.getElementById('sticker-toggle').classList.remove('opacity-0');
-        document.getElementById('sticker-toggle').classList.add('pointer-events-auto');
-    } else {
-        document.getElementById('sticker-toggle').classList.add('opacity-0');
-        document.getElementById('sticker-toggle').classList.remove('pointer-events-auto');
-    }
+    // Ensure sticker toggle is visible in both bot and online modes
+    const stickerToggle = document.getElementById('sticker-toggle');
+    stickerToggle.classList.remove('opacity-0');
+    stickerToggle.classList.add('pointer-events-auto');
 
     gameState.isPaused = false;
     initGame();
@@ -202,9 +171,12 @@ window.hideExitConfirm = () => {
 
 window.exitGame = () => {
     gameState.isGameActive = false;
-    gameState.processing = false;
-    gameState.activeCard = null;
     updateTurnIndicator(null, false);
+    const ptr = document.getElementById('turn-ptr');
+    if (ptr) {
+        ptr.style.opacity = '0';
+        gsap.killTweensOf(ptr);
+    }
     hideAllMenus();
     const hud = document.getElementById('hud');
     hud.style.opacity = '0';
@@ -240,7 +212,6 @@ window.toggleStickerPanel = () => {
 };
 
 window.sendSticker = (sticker) => {
-    if (!gameState.isMultiplayer) return;
     showStickerUI(sticker, 0);
     window.toggleStickerPanel();
 };
@@ -422,9 +393,8 @@ function botMove(bot) {
     if (!gameState.isGameActive || gameState.isPaused) return;
 
     // Chance to send sticker - Only allowed in Multiplayer mode to simulate real players
-    // Frequency increased to give a more active online feel
-    if (gameState.isMultiplayer && Math.random() > 0.55) {
-        const emojis = ['😊', '😂', '😠', '😮', '😎', '🤔', '🥳', '😱', '👍', '👎', '🔥', '❤️', '🃏', '👑', '🤫', '🤪', '🤯', '👏', '💸'];
+    if (gameState.isMultiplayer && Math.random() > 0.82) {
+        const emojis = ['😊', '😂', '😠', '😮', '😎', '🤔', '🥳', '😱', '👍', '👎', '🔥', '❤️', '🃏', '👑', '🤫'];
         const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
         showStickerUI(randomEmoji, bot.id);
     }
@@ -452,15 +422,14 @@ async function playCard(playerId, card) {
     
     // 1. Move card to table visually first
     gameState.table.push(card);
-    gameState.activeCard = card; 
-    updateTurnIndicator(null, false); // Hide pointer while card is being observed
+    gameState.activeCard = card; // Set active card to highlight it
     renderBoard(gameState, playCard);
     
-    // 2. Wait for players to see the played card (fixed 1s observation delay as requested)
-    const observationDelay = 1000 * speedFactor;
-    await new Promise(resolve => setTimeout(resolve, observationDelay));
+    // 2. Wait for players to see the played card (using a shorter delay for better flow)
+    const baseDelay = 1200 * speedFactor;
+    await new Promise(resolve => setTimeout(resolve, baseDelay));
 
-    if (!gameState.isGameActive || gameState.isPaused || !gameState.players.length) {
+    if (!gameState.isGameActive || gameState.isPaused) {
         gameState.processing = false;
         return;
     }

@@ -4,22 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>چهار برگ ایرانی</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
     <script>
         !function(e,t,n){e.yektanetAnalyticsObject=n,e[n]=e[n]||function(){e[n].q.push(arguments)},e[n].q=e[n].q||[];var a=t.getElementsByTagName("head")[0],r=new Date,c="https://cdn.yektanet.com/superscript/QbmZ9Sgl/native-pixelforge-ux.github.io-44538/yn_pub.js?v="+r.getFullYear().toString()+"0"+r.getMonth()+"0"+r.getDate()+"0"+r.getHours(),s=t.createElement("link");s.rel="preload",s.as="script",s.href=c,a.appendChild(s);var l=t.createElement("script");l.async=!0,l.src=c,a.appendChild(l)}(window,document,"yektanet");
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4af37">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(reg => console.log('Service Worker Registered'))
-                    .catch(err => console.log('Service Worker Failed', err));
-            });
-        }
-    </script>
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
@@ -81,8 +72,8 @@
             transform: rotate(180deg);
         }
         .menu-overlay {
-            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.8) 100%);
-            backdrop-filter: blur(8px) saturate(180%);
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.7) 0%, rgba(2, 6, 23, 0.95) 100%);
+            backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(212, 175, 55, 0.05);
         }
         #splash-screen {
@@ -364,16 +355,6 @@
             </div>
         </div>
 
-        <!-- Internet Lost Popup (Online Mode Only) -->
-        <div id="offline-popup" class="absolute inset-0 menu-overlay flex flex-col items-center justify-center p-6 z-[300] hidden">
-            <div class="bg-gray-900 border-2 border-red-500 rounded-3xl p-8 w-full max-w-xs text-center shadow-[0_0_50px_rgba(239,68,68,0.3)]">
-                <div class="text-red-500 text-5xl mb-4">📡</div>
-                <h3 class="text-xl font-bold mb-4">اتصال با اینترنت قطع شد</h3>
-                <p class="text-gray-400 text-sm mb-6">برای ادامه بازی در حالت آنلاین، لطفاً وضعیت شبکه خود را بررسی کنید.</p>
-                <button onclick="checkConnectivity()" class="btn-primary w-full bg-none bg-red-600 hover:bg-red-500 text-white border-none">تلاش مجدد</button>
-            </div>
-        </div>
-
         <!-- Leaderboard -->
         <div id="leaderboard" class="absolute inset-0 menu-overlay flex flex-col items-center justify-center p-6 z-[100] hidden overflow-y-auto">
             <div class="bg-gray-900 border-2 border-yellow-500 rounded-3xl p-8 w-full max-w-lg shadow-2xl">
@@ -388,13 +369,13 @@
         </div>
 
         <!-- Settings Menu -->
-        <div id="settings-menu" class="absolute inset-0 menu-overlay flex flex-col items-center justify-start p-3 z-50 hidden overflow-y-auto">
-            <h2 class="text-xl font-bold mt-2 mb-3 text-yellow-500">تنظیمات پیشرفته</h2>
+        <div id="settings-menu" class="absolute inset-0 menu-overlay flex flex-col items-center justify-start p-6 z-50 hidden overflow-y-auto">
+            <h2 class="text-2xl font-bold my-8 text-yellow-500">تنظیمات پیشرفته</h2>
             
-            <div class="w-full max-w-md flex flex-col gap-6 pb-12">
+            <div class="w-full max-w-md flex flex-col gap-8 pb-12">
                 <!-- Target Score (Horizontal Scroll Style) -->
                 <div>
-                    <label class="block text-center mb-2 text-gray-300">امتیاز نهایی: <span id="target-score-val" class="text-yellow-500 font-bold">۶۲</span></label>
+                    <label class="block text-center mb-4 text-gray-300">امتیاز نهایی: <span id="target-score-val" class="text-yellow-500 font-bold">۶۲</span></label>
                     <div class="flex items-center gap-4">
                         <span class="text-xs text-gray-500">۵۸</span>
                         <input type="range" id="target-score-input" min="58" max="68" step="1" value="62" 
@@ -405,14 +386,14 @@
 
                 <!-- Game Speed -->
                 <div>
-                    <label class="block text-center mb-2 text-gray-300">سرعت بازی: <span id="game-speed-val" class="text-yellow-500 font-bold">متوسط</span></label>
+                    <label class="block text-center mb-4 text-gray-300">سرعت بازی: <span id="game-speed-val" class="text-yellow-500 font-bold">متوسط</span></label>
                     <input type="range" id="game-speed-input" min="1" max="3" step="1" value="2" 
                            class="settings-slider" oninput="updateGameSpeed(this.value)">
                 </div>
 
                 <!-- Rule Toggles -->
-                <div class="space-y-3">
-                    <p class="text-center text-sm text-gray-400 mb-1">قوانین خاص</p>
+                <div class="space-y-4">
+                    <p class="text-center text-sm text-gray-400 mb-2">قوانین خاص</p>
                     <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10">
                         <span class="text-sm">سور با سرباز</span>
                         <button onclick="toggleRule('allowJackSur')" id="rule-allowJackSur" class="toggle-btn">غیرفعال</button>
@@ -428,7 +409,7 @@
                 </div>
 
                 <div>
-                    <p class="mb-2 text-center text-gray-300">طرح پشت کارت</p>
+                    <p class="mb-4 text-center">طرح پشت کارت</p>
                     <div class="grid grid-cols-3 gap-4">
                         <div onclick="setCardBack(1)" id="cb-1" class="setting-card active">
                             <img src="card_back_1.png" class="w-full rounded-lg">
@@ -443,7 +424,7 @@
                 </div>
 
                 <div>
-                    <p class="mb-2 text-center text-gray-300">طرح فرش (زمینه)</p>
+                    <p class="mb-4 text-center">طرح فرش (زمینه)</p>
                     <div class="grid grid-cols-3 gap-4">
                         <div onclick="setCarpet(1)" id="cp-1" class="setting-card active">
                             <img src="carpet_1.png" class="w-full h-20 object-cover rounded-lg">
@@ -462,7 +443,7 @@
         </div>
 
         <!-- Sticker Panel -->
-        <div id="sticker-panel" class="absolute bottom-32 right-4 grid grid-cols-4 gap-2 z-[120] opacity-0 pointer-events-none transition-all scale-90 origin-bottom-right bg-black/40 backdrop-blur-xl p-3 rounded-3xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto no-scrollbar">
+        <div id="sticker-panel" class="absolute bottom-32 right-4 grid grid-cols-4 gap-2 z-[300] opacity-0 pointer-events-none transition-all scale-90 origin-bottom-right bg-black/40 backdrop-blur-xl p-3 rounded-3xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto no-scrollbar">
             <button onclick="sendSticker('😊')" class="bg-white/5 hover:bg-white/20 p-2 rounded-xl text-2xl transition-transform active:scale-90">😊</button>
             <button onclick="sendSticker('😂')" class="bg-white/5 hover:bg-white/20 p-2 rounded-xl text-2xl transition-transform active:scale-90">😂</button>
             <button onclick="sendSticker('😠')" class="bg-white/5 hover:bg-white/20 p-2 rounded-xl text-2xl transition-transform active:scale-90">😠</button>
@@ -492,20 +473,20 @@
             <button onclick="sendSticker('👽')" class="bg-white/5 hover:bg-white/20 p-2 rounded-xl text-2xl transition-transform active:scale-90">👽</button>
             <button onclick="sendSticker('👾')" class="bg-white/5 hover:bg-white/20 p-2 rounded-xl text-2xl transition-transform active:scale-90">👾</button>
         </div>
-        <button id="sticker-toggle" onclick="toggleStickerPanel()" class="absolute bottom-32 left-4 bg-yellow-600/40 p-3 rounded-full z-[120] pointer-events-none opacity-0 transition-opacity shadow-lg shadow-yellow-900/50">
+        <button id="sticker-toggle" onclick="toggleStickerPanel()" class="absolute bottom-32 left-4 bg-yellow-600/40 p-3 rounded-full z-[300] pointer-events-none opacity-0 transition-opacity shadow-lg shadow-yellow-900/50">
             <svg viewBox="0 0 24 24" class="w-8 h-8 fill-yellow-500" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12zM7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
             </svg>
         </button>
 
         <!-- Hands Areas -->
-        <div id="player-hand" class="absolute bottom-4 left-0 right-0 h-32 pointer-events-none z-20"></div>
+        <div id="player-hand" class="absolute bottom-16 left-0 right-0 h-32 pointer-events-none z-20"></div>
         <div id="opponent-hand-top" class="absolute top-8 left-0 right-0 h-24 pointer-events-none z-20"></div>
         <div id="opponent-hand-left" class="absolute left-6 top-0 bottom-0 w-24 pointer-events-none z-20"></div>
         <div id="opponent-hand-right" class="absolute right-6 top-0 bottom-0 w-24 pointer-events-none z-20"></div>
 
         <!-- Name Labels -->
-        <div id="name-label-0" class="player-name-label" style="bottom: 140px; left: 50%; transform: translateX(-50%);"></div>
+        <div id="name-label-0" class="player-name-label" style="bottom: 120px; left: 50%; transform: translateX(-50%);"></div>
         <div id="name-label-1" class="player-name-label" style="top: 120px; left: 50%; transform: translateX(-50%);"></div>
         <div id="name-label-2" class="player-name-label" style="top: 50%; left: 100px; transform: translateY(-50%) rotate(90deg);"></div>
         <div id="name-label-3" class="player-name-label" style="top: 50%; right: 100px; transform: translateY(-50%) rotate(-90deg);"></div>

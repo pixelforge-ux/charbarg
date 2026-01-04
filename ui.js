@@ -49,10 +49,9 @@ export function updateTurnIndicator(playerId, isActive = true) {
     if (!ptr) return;
 
     gsap.killTweensOf(ptr);
-    gsap.set(ptr, { y: 0 }); // Reset vertical float offset
 
     if (!isActive || playerId === null || playerId === undefined) {
-        gsap.to(ptr, { opacity: 0, duration: 0.2, onComplete: () => {
+        gsap.to(ptr, { opacity: 0, duration: 0.3, onComplete: () => {
             ptr.style.display = 'none';
         }});
         return;
@@ -60,7 +59,7 @@ export function updateTurnIndicator(playerId, isActive = true) {
     ptr.style.display = 'block';
 
     const targets = {
-        0: { left: '50%', bottom: '170px', top: 'auto', right: 'auto', rotation: 0 },
+        0: { left: '50%', bottom: '140px', top: 'auto', right: 'auto', rotation: 0 },
         1: { left: '50%', top: '140px', bottom: 'auto', right: 'auto', rotation: 180 },
         2: { left: '140px', top: '50%', right: 'auto', bottom: 'auto', rotation: 90 },
         3: { right: '140px', top: '50%', left: 'auto', bottom: 'auto', rotation: -90 }
@@ -102,7 +101,7 @@ export function showPointsPopup(points, playerId) {
     popup.innerText = `${points > 0 ? '+' : ''}${points.toLocaleString('fa-IR')}`;
     
     const targets = {
-        0: { left: '50%', bottom: '210px' },
+        0: { left: '50%', bottom: '180px' },
         1: { left: '50%', top: '180px' },
         2: { left: '180px', top: '50%' },
         3: { right: '180px', top: '50%' }
